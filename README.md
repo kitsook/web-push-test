@@ -6,7 +6,7 @@ A web push notification demo with Java Spring Boot backend and Vue frontend.
 </p>
 
 ## Quick start
-Assuming the system has JDK (21 or later, with `JAVA_HOME` environment variable set) and npm installed:
+Assuming the system has JDK (17 or later, with `JAVA_HOME` environment variable set) and npm installed:
 
 ```bash
 git clone https://github.com/kitsook/web-push-test.git
