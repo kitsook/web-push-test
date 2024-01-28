@@ -17,7 +17,7 @@ cd web-push-test
 cd web-push-test/src/ui
 npm install && npm run serve
 ```
-The backend restful API will be listening on `localhost:8081` and frontend is served via http://localhost.8080.
+The backend restful API will be listening on `http://localhost:8081` and frontend is served via `http://localhost.8080`.
 
 ## Technical details
 
