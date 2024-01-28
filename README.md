@@ -1,6 +1,10 @@
 # web-push-test
 A web push notification demo with Java Spring Boot backend and Vue frontend.
 
+<p align="center">
+  <img src="https://github.com/kitsook/web-push-test/assets/13360325/b59d4af1-fc29-4165-be56-3c01bcc0160f" height="300">
+</p>
+
 ## Quick start
 Assuming the system has JDK (21 or later, with `JAVA_HOME` environment variable set) and npm installed:
 
@@ -28,8 +32,10 @@ The backend restful API will be listening on `localhost:8081` and frontend is se
   - `WebPushTestApplication`: main application. It uses `WebMvcConfigurer` to open CORS calling for demo purposes. Should setup properly for actual deployment
 - Since it has no persistent storage, whenever the backend is restarted, **user will need to re-subscribe for the notification to work**
 - The Swagger document of the backend restful API is available at [http://localhost:8081/v1/swagger-ui/index.html](http://localhost:8081/v1/swagger-ui/index.html) when backend is running
- 
-![image](https://github.com/kitsook/web-push-test/assets/13360325/b478aaec-7be4-491a-b3f8-44f8ed8dfab9)
+
+<p align="center">
+<img src="https://github.com/kitsook/web-push-test/assets/13360325/b478aaec-7be4-491a-b3f8-44f8ed8dfab9" height="200">
+</p>
 
 - To start the backend for debugging:
 ```bash
