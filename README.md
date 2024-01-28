@@ -19,11 +19,14 @@ The backend restful API will be listening on `localhost:8081` and frontend is se
 
 ### Backend
 - A Spring Boot application with restful APIs for managing subscriptions and triggering the backend to push notifications
-- Some of the components
+- Key components
   - `controllers/MessageController`: serving APIs for pushing notification
   - `controllers/SubscriptionController`: serving APIs for managing subscription
   - `models/NotificationMessage`: bean for the notification message. Only a few [available fields](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification) are included for demo purposes
   - `services/MessageService`: service to communicating with Push server using [webpush-java](https://github.com/web-push-libs/webpush-java)
+  - `utils/Storage`: temporary storage for the demo. The public/private key pair should be stored in securied storage for production deployment. Also the subscriptions should be stored in persistent storage
+  - `WebPushTestApplication`: main application. It uses `WebMvcConfigurer` to open CORS calling for demo purposes. Should setup properly for actual deployment
+- Since it has no persistent storage, whenever the backend is restarted, **user will need to re-subscribe for the notification to work**
 - The Swagger document of the backend restful API is available at [http://localhost:8081/v1/swagger-ui/index.html](http://localhost:8081/v1/swagger-ui/index.html) when backend is running
  
 ![image](https://github.com/kitsook/web-push-test/assets/13360325/b478aaec-7be4-491a-b3f8-44f8ed8dfab9)
@@ -33,3 +36,12 @@ The backend restful API will be listening on `localhost:8081` and frontend is se
 ./mvnw clean package spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 ```
 
+### Frontend
+- Implemented with Vue and Vuetify
+- Key components
+  - `ui/src/components/Subscribe.vue`: UI for the subscriptions
+    - Shows whether user has granted permission to display notofication
+    - To subscribe / unsubscribe from the notification
+  - `ui/src/components/Message.vue`: UI for triggering the backend to send notification
+  - `ui/src/services/Publishing.js` and `ui/src/services/Subscription.js`: calling the restful APIs with hard-coded `localhost` URLs
+  - `ui/public/service-worker.js`: the logic to run when receiving notifications. It is registered during the initialization of `Subscribe.vue`. Alternatively, instead of using a standalone js file, the logic can be [part of the webpack](https://github.com/web-push-libs/webpush-java/wiki/Usage-Example#webpack)
