@@ -7,13 +7,13 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="6" class="mb-4">
-        <v-card title="Permission" class="pa-4">
-          <p class="font-weight-regular mb-4 text-center">
-          Current permission: <span class="font-weight-bold"> {{ notificationPermission }} </span>
+        <v-card title="Permission" class="fill-height pa-4">
+          <v-card-subtitle>Status: {{ notificationPermission }}</v-card-subtitle>
+          <p class="mb-4">
           </p>
 
-          <div v-show="notificationPermission == 'denied'">
-              <p class="font-italic mb-2">
+          <div>
+              <p class="font-italic font-weight-thin mb-2">
               Note that if permission is "denied", browser will not prompt for subscription. Please enable it in Settings and reload the page.
               </p>
 
@@ -31,12 +31,16 @@
       </v-col>
 
       <v-col cols="12" md="6" class="mb-4">
-        <v-card title="Subscription" class="pa-4">
-          <p class="font-weight-regular mb-4 text-center">
-            Subscription status: <span class="font-weight-bold"> {{ subscribed }} </span>
-          </p>
+        <v-card title="Subscription" class="fill-height pa-4">
+          <v-card-subtitle>Status: {{ subscribed? 'subscribed' : 'not subscribed' }}</v-card-subtitle>
+          <p class="mb-4"></p>
+
           <v-btn class="ma-2" @click="subscribe" :disabled='subscribed'>Subscribe</v-btn>
           <v-btn class="ma-2" @click="unsubscribe" :disabled='!subscribed'>Unsubscribe</v-btn>
+
+          <p class="font-italic font-weight-thin ma-2">
+            The demo backend has no persistent storage. Re-subscribe if restarted backend.
+          </p>
         </v-card>
       </v-col>
     </v-row>
