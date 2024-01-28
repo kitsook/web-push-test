@@ -2,7 +2,7 @@
 A web push notification demo with Java Spring Boot backend and Vue frontend.
 
 <p align="center">
-  <img src="https://github.com/kitsook/web-push-test/assets/13360325/b59d4af1-fc29-4165-be56-3c01bcc0160f" height="300">
+  <img src="https://github.com/kitsook/web-push-test/assets/13360325/722a1fa5-ced1-4e0e-a9e2-095ffcfbafdb" height="300">
 </p>
 
 ## Quick start
