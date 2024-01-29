@@ -67,7 +67,11 @@ export default {
   methods: {
     async firstUpdated() {
       const registration = await navigator.serviceWorker.getRegistration();
-      this.subscribed = !!(await registration?.pushManager.getSubscription());
+      const subscription = await registration?.pushManager.getSubscription()
+      this.subscribed = !!(subscription);
+      if (this.subscribed) {
+        postSubscription(JSON.parse(JSON.stringify(subscription)));
+      }
       this.notificationPermission = Notification.permission;
     },
     async subscribe() {

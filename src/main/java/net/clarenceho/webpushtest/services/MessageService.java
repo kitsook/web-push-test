@@ -24,7 +24,7 @@ public class MessageService {
     @PostConstruct
     void init() throws GeneralSecurityException {
         Security.addProvider(new BouncyCastleProvider());
-        pushService = new PushService(Storage.PUBLIC_KEY, Storage.PRIVATE_KEY);
+        pushService = new PushService(Storage.PUBLIC_KEY, Storage.PRIVATE_KEY, "mailto:test@example.com");
     }
 
     public void pushNotification(String messageJson) {
