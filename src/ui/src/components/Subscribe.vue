@@ -39,7 +39,7 @@
           <v-btn class="ma-2" @click="unsubscribe" :disabled='!subscribed'>Unsubscribe</v-btn>
 
           <p class="font-italic font-weight-thin ma-2">
-            The demo backend has no persistent storage. Re-subscribe if restarted backend.
+            The demo backend has no persistent storage. After restarting the backend, reload this page or re-subscribe.
           </p>
         </v-card>
       </v-col>
@@ -61,11 +61,12 @@ export default {
     }
   },
   async beforeMount() {
-    await this.firstUpdated();
+    await this.init();
     await navigator.serviceWorker.register('/service-worker.js');
   },
   methods: {
-    async firstUpdated() {
+    async init() {
+      await navigator.serviceWorker.ready;
       const registration = await navigator.serviceWorker.getRegistration();
       const subscription = await registration?.pushManager.getSubscription()
       this.subscribed = !!(subscription);
