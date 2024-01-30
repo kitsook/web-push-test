@@ -27,7 +27,6 @@
 </template>
 
 <script>
-//import { ref } from 'vue'
 import { postMessage } from "../services/Publishing.js";
 
 export default {
