@@ -5,6 +5,7 @@ import net.clarenceho.webpushtest.utils.Storage;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
+import org.apache.http.HttpResponse;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
@@ -35,7 +36,19 @@ public class MessageService {
 
     private void sendNotification(Subscription subscription, String messageJson) {
         try {
-            pushService.send(new Notification(subscription, messageJson));
+            HttpResponse response = pushService.send(new Notification(subscription, messageJson));
+            if (logger.isInfoEnabled()) {
+                logger.info(response.toString());
+            }
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == 404 || statusCode == 410) {
+                if (logger.isInfoEnabled()) {
+                    logger.info("Unsubscribing {}", subscription.endpoint);
+                }
+                Storage.removeSubscription(subscription.endpoint);
+            } else if (statusCode >= 400 && statusCode <= 499) {
+                logger.error("Problem publishing: {}", response.getStatusLine().getReasonPhrase());
+            }
         } catch (GeneralSecurityException | IOException | JoseException | ExecutionException
                  | InterruptedException e) {
             logger.error("Failed to push notification", e);

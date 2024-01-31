@@ -24,7 +24,7 @@ public class MessageController {
     @PostMapping(value = "/message", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> subscribe(@RequestBody PublishMessageRequest request) {
         if (logger.isInfoEnabled()) {
-            logger.info("new message to publish: {}", request.message());
+            logger.info("new message to publish: {}", request.title());
         }
 
         msgService.pushNotification(new Gson().toJson(generateMessage(request)));
