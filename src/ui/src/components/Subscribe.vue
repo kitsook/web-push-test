@@ -61,8 +61,8 @@ export default {
     }
   },
   async beforeMount() {
-    await this.init();
     await navigator.serviceWorker.register('/service-worker.js');
+    await this.init();
   },
   methods: {
     async init() {
