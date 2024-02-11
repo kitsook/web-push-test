@@ -41,6 +41,13 @@
           <p class="font-italic font-weight-thin ma-2">
             The demo backend has no persistent storage. After restarting the backend, reload this page or re-subscribe.
           </p>
+          <p class="font-weight-thin">
+            <v-list lines="three">
+              <v-list-item title="Application Server Key"
+                :subtitle="applicationServerKey"></v-list-item>
+            </v-list>
+            <v-textarea label="Subscription" :model-value="jsonstr"></v-textarea>
+          </p>
         </v-card>
       </v-col>
     </v-row>
@@ -58,6 +65,8 @@ export default {
     return {
       notificationPermission: null,
       subscribed: false,
+      applicationServerKey: null,
+      jsonstr: null,
     }
   },
   async beforeMount() {
@@ -66,6 +75,7 @@ export default {
   },
   methods: {
     async init() {
+      this.applicationServerKey = await getPublicKey();
       await navigator.serviceWorker.ready;
       const registration = await navigator.serviceWorker.getRegistration();
       const subscription = await registration?.pushManager.getSubscription()
@@ -73,16 +83,16 @@ export default {
       if (this.subscribed) {
         postSubscription(JSON.parse(JSON.stringify(subscription)));
       }
+      this.showSubscription(subscription);
       this.notificationPermission = Notification.permission;
     },
     async subscribe() {
       this.notificationPermission = await Notification.requestPermission();
       if (this.notificationPermission === "granted") {
-        const publicKey = await getPublicKey();
         const registration = await navigator.serviceWorker.getRegistration();
         const subscription = await registration?.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: this.urlB64ToUint8Array(publicKey),
+          applicationServerKey: this.urlB64ToUint8Array(this.applicationServerKey),
         });
         if (subscription) {
           this.subscribed = true;
@@ -91,6 +101,7 @@ export default {
         } else {
           console.error("Failed to sign up with push server");
         }
+        this.showSubscription(subscription);
       }
     },
     async unsubscribe() {
@@ -101,6 +112,7 @@ export default {
         deleteSubscription(subscription.endpoint);
         this.subscribed = false;
       }
+      this.showSubscription(null);
     },
     urlB64ToUint8Array(base64String) {
       const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -113,6 +125,13 @@ export default {
         outputArray[i] = rawData.charCodeAt(i);
       }
       return outputArray;
+    },
+    showSubscription(subscription) {
+      if (subscription) {
+        this.jsonstr = JSON.stringify(subscription, null, 2);
+      } else {
+        this.jsonstr = null;
+      }
     },
   },
 }
