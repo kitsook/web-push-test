@@ -46,7 +46,7 @@
               <v-list-item title="Application Server Key"
                 :subtitle="applicationServerKey"></v-list-item>
             </v-list>
-            <v-textarea label="Subscription" :model-value="jsonstr"></v-textarea>
+            <v-textarea label="Subscription" :model-value="jsonStr"></v-textarea>
           </p>
         </v-card>
       </v-col>
@@ -66,7 +66,7 @@ export default {
       notificationPermission: null,
       subscribed: false,
       applicationServerKey: null,
-      jsonstr: null,
+      jsonStr: null,
     }
   },
   async beforeMount() {
@@ -87,6 +87,9 @@ export default {
       this.notificationPermission = Notification.permission;
     },
     async subscribe() {
+      if (!(this.applicationServerKey)) {
+        this.applicationServerKey = await getPublicKey();
+      }
       this.notificationPermission = await Notification.requestPermission();
       if (this.notificationPermission === "granted") {
         const registration = await navigator.serviceWorker.getRegistration();
@@ -96,8 +99,7 @@ export default {
         });
         if (subscription) {
           this.subscribed = true;
-          // Serialize keys uint8array -> base64
-          postSubscription(JSON.parse(JSON.stringify(subscription)));
+          postSubscription(subscription.toJSON());
         } else {
           console.error("Failed to sign up with push server");
         }
@@ -128,9 +130,9 @@ export default {
     },
     showSubscription(subscription) {
       if (subscription) {
-        this.jsonstr = JSON.stringify(subscription, null, 2);
+        this.jsonStr = JSON.stringify(subscription, null, 2);
       } else {
-        this.jsonstr = null;
+        this.jsonStr = null;
       }
     },
   },
