@@ -26,7 +26,8 @@ public class SubscriptionController {
     @PostMapping(value = "/subscription", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> subscribe(@RequestBody Subscription subscription) {
         if (logger.isInfoEnabled()) {
-            logger.info("incoming subscription:\n{}", new GsonBuilder().setPrettyPrinting().create().toJson(subscription));
+            logger.info("incoming subscription:\n{}", new GsonBuilder()
+                .setPrettyPrinting().disableHtmlEscaping().create().toJson(subscription));
         }
         Storage.addSubscription(subscription);
         return new ResponseEntity<>("{result: ok}", HttpStatus.OK);
