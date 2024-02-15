@@ -48,6 +48,7 @@ The backend restful API will be listening on `http://localhost:8081` and fronten
   - `ui/src/components/Subscribe.vue`: UI for the subscriptions
     - Shows whether user has granted permission to display notofication
     - To subscribe / unsubscribe from the notification
+  - `ui/src/components/ManualScribe.vue`: allow manually add subscriptions for testing purposes
   - `ui/src/components/Message.vue`: UI for triggering the backend to send notification
   - `ui/src/services/Publishing.js` and `ui/src/services/Subscription.js`: calling the restful APIs with hard-coded `localhost` URLs
   - `ui/public/service-worker.js`: the logic to run when receiving notifications. It is registered during the initialization of `Subscribe.vue`. Alternatively, instead of using a standalone js file, the logic can be [part of the webpack](https://github.com/web-push-libs/webpush-java/wiki/Usage-Example#webpack)
