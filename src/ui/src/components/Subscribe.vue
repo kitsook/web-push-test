@@ -81,6 +81,7 @@ export default {
       const subscription = await registration?.pushManager.getSubscription()
       this.subscribed = !!(subscription);
       if (this.subscribed) {
+        console.log(subscription.toJSON());
         postSubscription(JSON.parse(JSON.stringify(subscription)));
       }
       this.showSubscription(subscription);
@@ -98,6 +99,7 @@ export default {
           applicationServerKey: this.urlB64ToUint8Array(this.applicationServerKey),
         });
         if (subscription) {
+          console.log(subscription.toJSON());
           this.subscribed = true;
           postSubscription(subscription.toJSON());
         } else {
