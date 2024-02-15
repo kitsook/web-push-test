@@ -10,7 +10,7 @@
           </pre>
           <div>
             <v-textarea label="Subscription" v-model="jsonStr"></v-textarea>
-            <v-btn class="ma-2" @click="subscribe">
+            <v-btn class="ma-2" @click="subscribe" :disabled="!isJsonString()">
               Send
             </v-btn>
           </div>
@@ -43,6 +43,17 @@ export default {
     async subscribe() {
       console.log(this.jsonStr);
       postSubscription(JSON.parse(this.jsonStr));
+    },
+    isJsonString() {
+      if (!this.jsonStr) {
+        return false;
+      }
+      try {
+          JSON.parse(this.jsonStr);
+      } catch (e) {
+        return false;
+      }
+      return true;
     },
   },
 }
