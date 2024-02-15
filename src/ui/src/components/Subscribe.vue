@@ -82,7 +82,7 @@ export default {
       this.subscribed = !!(subscription);
       if (this.subscribed) {
         console.log(subscription.toJSON());
-        postSubscription(JSON.parse(JSON.stringify(subscription)));
+        postSubscription(subscription.toJSON());
       }
       this.showSubscription(subscription);
       this.notificationPermission = Notification.permission;
