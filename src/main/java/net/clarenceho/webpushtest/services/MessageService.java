@@ -10,6 +10,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,6 +21,10 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class MessageService {
+    @Autowired
+    @Qualifier("appStorage")
+    Storage storage;
+
     private final Logger logger = LoggerFactory.getLogger(MessageService.class);
     private PushService pushService;
 
@@ -29,9 +35,7 @@ public class MessageService {
     }
 
     public void pushNotification(String messageJson) {
-        Storage.getSubscriptions().forEach(subscription -> {
-            sendNotification(subscription, messageJson);
-        });
+        storage.getSubscriptions().forEach(subscription -> sendNotification(subscription, messageJson));
     }
 
     private void sendNotification(Subscription subscription, String messageJson) {
@@ -45,13 +49,14 @@ public class MessageService {
                 if (logger.isInfoEnabled()) {
                     logger.info("Unsubscribing {}", subscription.endpoint);
                 }
-                Storage.removeSubscription(subscription.endpoint);
+                storage.removeSubscription(subscription.endpoint);
             } else if (statusCode >= 400 && statusCode <= 499) {
                 logger.error("Problem publishing: {}", response.getStatusLine().getReasonPhrase());
             }
-        } catch (GeneralSecurityException | IOException | JoseException | ExecutionException
-                 | InterruptedException e) {
+        } catch (GeneralSecurityException | IOException | JoseException | ExecutionException e) {
             logger.error("Failed to push notification", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }

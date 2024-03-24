@@ -6,6 +6,8 @@ import net.clarenceho.webpushtest.utils.Storage;
 import nl.martijndwars.webpush.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,10 @@ import java.util.Objects;
 @RestController
 public class SubscriptionController {
 
+    @Autowired
+    @Qualifier("appStorage")
+    Storage storage;
+
     private static final PublicKey PUBLIC_KEY = new PublicKey(Storage.PUBLIC_KEY);
     private final Logger logger = LoggerFactory.getLogger(SubscriptionController.class);
 
@@ -29,13 +35,13 @@ public class SubscriptionController {
             logger.info("incoming subscription:\n{}", new GsonBuilder()
                 .setPrettyPrinting().disableHtmlEscaping().create().toJson(subscription));
         }
-        Storage.addSubscription(subscription);
+        storage.createOrUpdateSubscription(subscription);
         return new ResponseEntity<>("{result: ok}", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/subscription", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> unsubscribe(@RequestBody DeleteRequest request) {
-        Storage.removeSubscription(request.endpoint());
+        storage.removeSubscription(request.endpoint());
         return new ResponseEntity<>("{result: ok}", HttpStatus.OK);
     }
 
