@@ -1,7 +1,7 @@
 package net.clarenceho.webpushtest.controllers;
 
 import com.google.gson.GsonBuilder;
-import net.clarenceho.webpushtest.models.DeleteRequest;
+import net.clarenceho.webpushtest.dto.DeleteRequest;
 import net.clarenceho.webpushtest.utils.Storage;
 import nl.martijndwars.webpush.Subscription;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package net.clarenceho.webpushtest.models;
+package net.clarenceho.webpushtest.dto;
 
 import org.springframework.lang.Nullable;
 

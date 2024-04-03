@@ -1,8 +1,8 @@
 package net.clarenceho.webpushtest.controllers;
 
 import com.google.gson.Gson;
-import net.clarenceho.webpushtest.models.NotificationMessage;
-import net.clarenceho.webpushtest.models.PublishMessageRequest;
+import net.clarenceho.webpushtest.dto.NotificationMessage;
+import net.clarenceho.webpushtest.dto.PublishMessageRequest;
 import net.clarenceho.webpushtest.services.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

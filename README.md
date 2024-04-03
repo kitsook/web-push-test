@@ -26,7 +26,7 @@ The backend restful API will be listening on `http://localhost:8081` and fronten
 - Key components
   - `controllers/MessageController`: serving APIs for pushing notification
   - `controllers/SubscriptionController`: serving APIs for managing subscription
-  - `models/NotificationMessage`: bean for the notification message. Only a few [available fields](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification) are included for demo purposes
+  - `dto/NotificationMessage`: bean for the notification message. Only a few [available fields](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification) are included for demo purposes
   - `services/MessageService`: service to communicating with Push server using [webpush-java](https://github.com/web-push-libs/webpush-java)
   - `utils/Storage`: temporary storage for the demo. The public/private key pair should be stored in securied storage for production deployment. Also the subscriptions should be stored in persistent storage
   - `WebPushTestApplication`: main application. It uses `WebMvcConfigurer` to open CORS calling for demo purposes. Should setup properly for actual deployment
