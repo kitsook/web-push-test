@@ -1,4 +1,4 @@
-# web-push-test
+# Java web push notification demo
 A web push notification demo with Java Spring Boot backend and Vue frontend.
 
 <p align="center">
