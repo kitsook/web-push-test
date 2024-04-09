@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "sub_details")
 public class SubDetail {
+    @SuppressWarnings("unused")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
